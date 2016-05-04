@@ -109,7 +109,6 @@ def VGG_16_transfer(weights_path=None):
 
 train_X, test_X, train_y, test_y = data.get_data()
 model_base = VGG_16('vgg16_weights.h5')
-model = VGG_16_transfer('model.h5')
 for k in range(len(model_base.layers)-1):
     weight = model_base.layers[k].get_weights()
     model.layers[k].set_weights(weight)
@@ -117,6 +116,5 @@ for layer in model.layers[:-1]:
     layer.params = []
     layer.updates = []
 model.add(Dense(3, activation='softmax'))
-model.compile(optimizer='sgd', loss='mse')
 model.fit(train_X, train_y, batch_size=20, nb_epoch=2, verbose=1)
 model.save_weights('vgg16_transfer_weights.h5')
